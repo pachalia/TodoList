@@ -47,6 +47,30 @@ export class TodoService {
       });
   }
 
+  async updateDescription(id: string, description: string): Promise<ToDo | null> {
+    const todo = await this.prismaService.toDo
+      .findFirst({ where: { id } })
+      .catch((e) => {
+        this.logger.error(e);
+        return null;
+      });
+    if (!todo) {
+      this.logger.error(`Todo с ID ${id} не найдена`);
+      return null;
+    }
+    return await this.prismaService.toDo
+      .update({
+        where: { id },
+        data: {
+          description: description,
+        },
+      })
+      .catch((e) => {
+        this.logger.error(e);
+        return null;
+      });
+  }
+
   async delete(id: string) {
     const todo = await this.prismaService.toDo
       .findFirst({ where: { id } })

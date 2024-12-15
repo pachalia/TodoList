@@ -1,9 +1,12 @@
 import './todo.css';
-import {ITodoProps } from '../../interfaces/interfaces.ts';
+import { IProps } from '../../interfaces/interfaces.ts';
 
-const Todo:React.FC<ITodoProps> = ({todo, handleStatus, handleDelete}) => {
+interface ITodoProps extends Pick<IProps, 'todo' | 'handleStatus' | 'handleDelete' | 'handleDescription'> {}
+
+const Todo:React.FC<ITodoProps> = ({todo, handleStatus, handleDelete, handleDescription}) => {
 
 	const lineTable = ['№', 'Заголовок Todo', 'Описание', 'Статус', 'Дата создания', 'Удалить']
+
 
 
 	return (
@@ -27,7 +30,9 @@ const Todo:React.FC<ITodoProps> = ({todo, handleStatus, handleDelete}) => {
 								onClick={()=> handleStatus(val.id)}
 								style={{cursor: 'pointer', width: '20%'}}>{val.title}
 							</td>
-							<td className={val.status ? "status" : undefined} style={{width:'40%'}}>{val.description}</td>
+							<td className={val.status ? "status" : undefined} style={{width:'40%'}}>{val.description}
+								<button onClick={() =>handleDescription(val.id, val.title, val.description)}>Редактировать</button>
+							</td>
 							<td className={val.status ? "status" : undefined}>{val.status ? 'Выполнен' : 'Не выполнен'}</td>
 							<td className={val.status ? "status" : undefined}>{new Date(val.createdAt).toLocaleDateString('ru',{
 								day:"numeric",

@@ -1,7 +1,12 @@
-import { useController, UseControllerProps, useForm } from 'react-hook-form';
-import { TodoService } from '../../services/todo.service.ts';
-import { IAddFormProps, IAddFormValue } from '../../interfaces/interfaces.ts';
+import { SubmitHandler, useController, UseControllerProps, useForm } from 'react-hook-form';
+import { ITodo } from '../../interfaces/interfaces.ts';
+import { useEffect } from 'react';
 
+export interface IAddFormValue extends Pick<ITodo, 'title' | 'description'>{}
+
+interface IAddFormProps {
+	onSubmit:SubmitHandler<IAddFormValue>
+}
 
 
 const Input = (props:UseControllerProps<IAddFormValue>) => {
@@ -13,18 +18,15 @@ const Input = (props:UseControllerProps<IAddFormValue>) => {
 	)
 }
 
-const AddTodoForm:React.FC<IAddFormProps> = ({setTodo}) => {
+const AddTodoForm:React.FC<IAddFormProps> = ({onSubmit}) => {
 
-	const {control, handleSubmit,reset,formState:{isValid}} = useForm<IAddFormValue>({
+	const {control, handleSubmit, reset, formState:{isValid, isSubmitSuccessful}} = useForm<IAddFormValue>({
 		defaultValues:{title: "", description:""},
+		resetOptions: {keepIsSubmitSuccessful: false}
 	})
-	const onSubmit = (data:IAddFormValue) => {
-		TodoService.addTodo(data).then(async () =>{
-			const newTodos =await TodoService.getTodos()
-			setTodo(newTodos)
-		})
+	useEffect(() => {
 		reset()
-	}
+	}, [isSubmitSuccessful]);
 	return <>
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div style={{ display: "flex", width: '60%', margin: '0 auto', flexDirection: 'column' }}>

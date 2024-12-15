@@ -1,12 +1,14 @@
 import { TodoService } from '../../services/todo.service.ts';
 import { useController, useForm } from 'react-hook-form';
-import { IFindTodosProps } from '../../interfaces/interfaces.ts';
+import { IProps } from '../../interfaces/interfaces.ts';
 import { useEffect } from 'react';
 
 
 type FindFormValue = {
 	todo: string
 }
+
+interface IFindTodosProps extends Pick<IProps, 'setIsFindTodo' | 'setTodo'>{}
 
 const FindForm: React.FC<IFindTodosProps> = ({setTodo, setIsFindTodo}) => {
 
@@ -18,8 +20,10 @@ const FindForm: React.FC<IFindTodosProps> = ({setTodo, setIsFindTodo}) => {
 		defaultValue: '',
 		rules: {
 			required: 'Поле обязательно'
-		},
+		}
 	});
+
+
 
 	const onSubmit = (data:FindFormValue) => {
 		setIsFindTodo(true)

@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-import { IAddFormValue, ITodo } from '../interfaces/interfaces.ts';
+import { ITodo } from '../interfaces/interfaces.ts';
+import { IAddFormValue } from '../components/AddTodoForm/addTodoForm.tsx';
 
-const url = 'http://localhost:3000/api'
+const url = 'https://andreypachalia.ru/todoapi/api'
 
 
 export class TodoService {
@@ -24,5 +25,10 @@ export class TodoService {
 
 	static findTodo(todo:string):Promise<ITodo[]> {
 		return axios.get<ITodo[]>(`${url}/find?todo=${todo}`).then((val) =>val.data)
+	}
+
+	static updateTodoDescription (id: string, description:string):Promise<ITodo> {
+
+		return axios.put(`${url}/description`, {id, description}).then((val) => val.data)
 	}
 }

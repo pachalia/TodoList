@@ -6,10 +6,6 @@ export interface ITodo {
 	createdAt:string
 }
 
-export interface IAddFormValue  {
-	title: string,
-	description:string
-}
 
 export interface IProps  {
 	todo: ITodo[]
@@ -17,11 +13,5 @@ export interface IProps  {
 	setIsFindTodo: React.Dispatch<React.SetStateAction<boolean>>
 	handleStatus: Function
 	handleDelete: Function
+	handleDescription: Function
 }
-
-export interface IAddFormProps {
-	setTodo: React.Dispatch<React.SetStateAction<ITodo[]>>
-}
-
-export interface ITodoProps extends Pick<IProps, 'todo' | 'handleStatus' | 'handleDelete'> {}
-export interface IFindTodosProps extends Pick<IProps, 'setIsFindTodo' | 'setTodo'>{}

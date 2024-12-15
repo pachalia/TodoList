@@ -49,3 +49,4 @@ server/*.sln
 server*.sw?
 server/build
 frontend/build
+.idea
